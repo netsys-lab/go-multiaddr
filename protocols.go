@@ -41,6 +41,7 @@ const (
 	P_WEBRTC_DIRECT     = 280
 	P_WEBRTC            = 281
 	P_SCION             = 13639680
+	P_VIA               = 13639681
 )
 
 var (
@@ -282,6 +283,14 @@ var (
 		Path:       false,
 		Transcoder: TranscoderSCION,
 	}
+	protoVia = Protocol{
+		Name:       "via",
+		Code:       P_VIA,
+		VCode:      CodeToVarint(P_VIA),
+		Size:       LengthPrefixedVarSize,
+		Path:       false,
+		Transcoder: TranscoderVia,
+	}
 )
 
 func init() {
@@ -323,6 +332,7 @@ func init() {
 		protoWebRTCDirect,
 		protoWebRTC,
 		protoSCION,
+		protoVia,
 	} {
 		if err := AddProtocol(p); err != nil {
 			panic(err)

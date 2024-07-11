@@ -484,3 +484,25 @@ func scionBtS(b []byte) (string, error) {
 	}
 	return string(b), nil
 }
+
+var TranscoderVia = NewTranscoderFromFunctions(viaStB, viaBtS, viaVal)
+
+func viaVal(b []byte) error {
+	// TODO(Leon): Actually validate something
+	return nil
+}
+
+func viaStB(s string) ([]byte, error) {
+	b := []byte(s)
+	if err := viaVal(b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+func viaBtS(b []byte) (string, error) {
+	if err := viaVal(b); err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
